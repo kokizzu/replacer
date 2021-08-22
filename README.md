@@ -2,6 +2,13 @@
 
 A simple tool to find and replace substring per line (that are should be way slower than `sed`), but way simpler to use for simple non-regex use cases. 
 
+## Install
+
+requires [Golang](//golang.org/)
+```
+go install github.com/kokizzu/replacer@latest
+```
+
 ## Example
 ```
 $ echo 'a b c
