@@ -4,10 +4,11 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"github.com/kokizzu/gotro/L"
-	"github.com/kokizzu/gotro/S"
 	"io/ioutil"
 	"os"
+
+	"github.com/kokizzu/gotro/L"
+	"github.com/kokizzu/gotro/S"
 )
 
 func main() {
@@ -42,15 +43,14 @@ usage:
 		startReplace := false
 		for scanner.Scan() {
 			line := scanner.Text()
-			if S.StartsWith(line, afterPrefix) {
-				startReplace = true
-			}
 			if startReplace {
 				newLine := S.Replace(line, searchTerm, replaceTerm)
 				if newLine != line {
 					replaceCount++
 					line = newLine
 				}
+			} else if S.StartsWith(line, afterPrefix) {
+				startReplace = true
 			}
 			buff.WriteString(line)
 			buff.WriteString("\n")
