@@ -9,7 +9,7 @@ requires [Golang](//golang.org/)
 go install github.com/kokizzu/replacer@latest
 ```
 
-## Example
+## Example using CLI
 ```
 $ echo 'a b c
 c d e
@@ -26,4 +26,11 @@ c d e
 afterThisLine
 a b ayaya
 ayaya d e
+```
+
+## Example using go:generate
+```
+//go:generate replacer 'Id" form' 'Id,string" form' type bla.go
+//go:generate replacer 'json:"id"' 'json:id,string" form' type bla.go
+//go:generate replacer 'By" form' 'By,string" form' type bla.go
 ```
