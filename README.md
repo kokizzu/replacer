@@ -48,7 +48,7 @@ ayaya d e
 
 ## Example using go:generate
 ```
-//go:generate replacer 'Id" form' 'Id,string" form' type bla.go
-//go:generate replacer 'json:"id"' 'json:id,string" form' type bla.go
-//go:generate replacer 'By" form' 'By,string" form' type bla.go
+//go:generate replacer 'Id" form' 'Id,string" form' 'type Foo int' bla.go
+//go:generate replacer -afterprefix 'json:"id"' 'json:id,string" form' type bla.go
+//go:generate replacer 'By" form' 'By,string" form' 'type StructX' bla.go
 ```
