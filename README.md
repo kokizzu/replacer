@@ -11,9 +11,9 @@ go install github.com/kokizzu/replacer@latest
 
 ## Changelog
 
-- 2021-08-22 first version
-- 2023-03-25 add 2 more flag: `-untilsbustr` and `-untilprefix` to replace only until specific substring or prefix
-- 2023-03-25 3rd parameter became substring search now, previously was prefix search, added 1 new flag: `-afterprefix`
+- `2021-08-22` first version
+- `2023-03-25` add 2 more flag: `-untilsbustr` and `-untilprefix` to replace only until specific substring or prefix
+- `2023-03-25` 3rd parameter became substring search now, previously was prefix search, added 1 new flag: `-afterprefix`
 
 ## Usage
 
