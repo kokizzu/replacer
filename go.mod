@@ -1,6 +1,6 @@
 module github.com/kokizzu/replacer
 
-go 1.19
+go 1.20
 
 require github.com/kokizzu/gotro v1.2707.1347
 

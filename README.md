@@ -9,6 +9,18 @@ requires [Golang](//golang.org/)
 go install github.com/kokizzu/replacer@latest
 ```
 
+## Usage
+
+```
+./replacer [-afterprefix] [-untilsubstr untilSubstring] [-untilprefix untilPrefix] from to afterTerm file
+```
+
+Must be in order
+
+  - `-afterprefix` afterTerm will become prefix search instead of default substrsearch
+  - `-untilsubstr` untilSubstring 
+  - `-untilprefix` untilPrefix
+
 ## Example using CLI
 ```
 $ echo 'a b c
@@ -17,7 +29,7 @@ afterThisLine
 a b c
 c d e' > a.txt
 
-$ replacer c ayaya afterThisLine a.txt
+$ replacer c ayaya afterThisTerm a.txt
 Done 2 replacement
 
 $ cat a.txt
