@@ -17,14 +17,51 @@ func main() {
 	if len(args) < 5 {
 		fmt.Println(`
 usage:
-  ` + args[0] + ` [searchTerm] [replaceTerm] [afterPrefix] [fileName]`)
+  ` + args[0] + ` [searchTerm] [replaceTerm] [afterTerm] [fileName]
+
+optional argument before [searchTerm]
+  -afterprefix afterTerm will become prefix search instead of default substrsearch
+  -untilsubstr [untilSubstring] 
+  -untilprefix [untilPrefix]
+
+all case sensitive except for flags
+`)
 		return
 	}
 
-	searchTerm := args[1]
-	replaceTerm := args[2]
-	afterPrefix := args[3]
-	fileName := args[4]
+	afterTermIsSubstring := true
+	requiredPos := 0
+	untilSubstr := ``
+	if S.ToLower(args[requiredPos+1]) == `-afterprefix` {
+		afterTermIsSubstring = false
+		requiredPos += 1
+	}
+	if len(args) < requiredPos+5 {
+		fmt.Println(`error: missing required argument, remains: `, args[requiredPos+1:])
+		return
+	}
+	if S.ToLower(args[requiredPos+1]) == `-untilsubstr` {
+		untilSubstr = args[requiredPos+2]
+		requiredPos += 2
+	}
+	if len(args) < requiredPos+5 {
+		fmt.Println(`error: missing required argument, remains: `, args[requiredPos+1:])
+		return
+	}
+	untilPrefix := ``
+	if S.ToLower(args[requiredPos+1]) == `-untilprefix` {
+		untilPrefix = args[requiredPos+2]
+		requiredPos += 2
+	}
+	if len(args) < requiredPos+5 {
+		fmt.Println(`error: missing required argument, remains: `, args[requiredPos+1:])
+		return
+	}
+
+	searchTerm := args[requiredPos+1]
+	replaceTerm := args[requiredPos+2]
+	afterTerm := args[requiredPos+3]
+	fileName := args[requiredPos+4]
 	replaceCount := 0
 	buff := bytes.Buffer{}
 
@@ -41,16 +78,33 @@ usage:
 
 		scanner := bufio.NewScanner(file) // max 64k
 		startReplace := false
+		stopReplace := false
 		for scanner.Scan() {
 			line := scanner.Text()
 			if startReplace {
-				newLine := S.Replace(line, searchTerm, replaceTerm)
-				if newLine != line {
-					replaceCount++
-					line = newLine
+				if !stopReplace {
+					newLine := S.Replace(line, searchTerm, replaceTerm)
+					if newLine != line {
+						replaceCount++
+						line = newLine
+					}
+					if untilSubstr != `` && S.Contains(line, untilSubstr) {
+						stopReplace = true
+					}
+					if untilPrefix != `` && S.StartsWith(line, untilPrefix) {
+						stopReplace = true
+					}
 				}
-			} else if S.StartsWith(line, afterPrefix) {
-				startReplace = true
+			} else {
+				if afterTermIsSubstring {
+					if S.Contains(line, afterTerm) {
+						startReplace = true
+					}
+				} else {
+					if S.StartsWith(line, afterTerm) {
+						startReplace = true
+					}
+				}
 			}
 			buff.WriteString(line)
 			buff.WriteString("\n")
